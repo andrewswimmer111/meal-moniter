@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from "../contexts/UserContext";
 import { registerUser } from "../api_calls/auth";
+
 import type { RegisterInfo } from "../types/auth";
 
+
 function SignUp() {
+
+    const navigate = useNavigate();
+    const {login} = useContext(UserContext)
 
     const [warning, setWarning] = useState("")
     const [registerInfo, setRegisterInfo] = useState<RegisterInfo>({
@@ -42,7 +49,13 @@ function SignUp() {
             setWarning(validationResult)
         } else {
             const apiResult = await registerUser(registerInfo)
-            setWarning(apiResult)
+            if (!apiResult.success) {
+                setWarning(apiResult.message)
+            }
+            else {
+                login(apiResult.user)
+                navigate('/dashboard')
+            }
         }
     }
 

@@ -9,10 +9,31 @@ interface CreateUserInput {
   password: string;
 }
 
+interface JwtPayload {
+  id: number;
+  email: string;
+  iat: number;
+  exp: number;
+}
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key';
+
+
+export const getUsers = () => {
+  return prisma.user.findMany();
+};
+
 export const createUser = async (data: CreateUserInput) => {
   try {
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    return await prisma.user.create({ data: {name: data.name,  email: data.email, password: hashedPassword}});
+    const user = await prisma.user.create({ data: {name: data.name,  email: data.email, password: hashedPassword}});
+    
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    return { token, user: { id: user.id, name: user.name, email: user.email } };
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
       throw new Error("Email already in use");
@@ -20,8 +41,6 @@ export const createUser = async (data: CreateUserInput) => {
     throw err;
   }
 };
-
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key';
 
 export const loginUser = async (email: string, password: string) => {
   const user = await prisma.user.findUnique({ where: { email } });
@@ -39,6 +58,33 @@ export const loginUser = async (email: string, password: string) => {
 
   return { token, user: { id: user.id, name: user.name, email: user.email } };
 };
+
+
+export const handleToken = async (token: string) => {
+  try {
+    console.log(token)
+    const payload = jwt.verify(token, JWT_SECRET);
+
+    if (typeof payload === 'string') {
+      throw new Error('Invalid token payload'); 
+    }
+
+    console.log(payload)
+
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId },
+      select: { id: true, name: true, email: true },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  } catch (err) {
+    throw new Error('Invalid or expired token');
+  }
+}
 
 
 /**

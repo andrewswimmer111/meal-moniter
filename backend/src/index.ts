@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
+
 import type { Request, Response } from 'express';
 
 import userRouter from './routes/user.routes.js'
@@ -13,13 +15,16 @@ app.use(cors({
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
+
+app.use(cookieParser())
+app.use(express.json())
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello from backend!');
 });
-
-app.use(express.json())
 app.use('/users', userRouter);
 app.use('/locations', locationRouter)
 app.use('/restaurants', restaurantRouter)
