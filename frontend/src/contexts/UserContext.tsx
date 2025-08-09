@@ -7,10 +7,12 @@ export const UserContext = createContext<UserContextType>({
     user: null,
     login: () => {},
     logout: () => {},
+    loading: true,
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/users/token`, {
@@ -25,6 +27,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     })
     .catch(() => {
         setUser(null);
+    })
+    .finally(() => {
+        setLoading(false);
     });
   }, []);
 
@@ -35,13 +40,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     await fetch(`${import.meta.env.VITE_API_URL}/users/logout`, {
         method: 'POST',
-        credentials: 'include', // send cookie to clear it server-side
+        credentials: 'include', 
     });
     setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );
