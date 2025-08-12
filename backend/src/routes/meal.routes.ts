@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { writeMeal } from '../controllers/meal.controller.js';
+import { deleteMeal, writeMeal } from '../controllers/meal.controller.js';
 
 const router = Router();
 
 router.post('/', writeMeal)
+router.delete('/:mealId', deleteMeal)
 
 export default router

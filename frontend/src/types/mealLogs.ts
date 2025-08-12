@@ -19,5 +19,5 @@ export type MenuItem = {
 export type LogMealInfo = {
     userId: number,
     menuItemId: number,
-    date?: Date
+    eatenAt?: string
 }

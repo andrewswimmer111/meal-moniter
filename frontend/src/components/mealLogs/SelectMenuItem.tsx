@@ -12,7 +12,6 @@ type SelectMenuItemProps = {
 const SelectMenuItem = ({restaurantID, onSelectMenuItem}: SelectMenuItemProps) => {
 
     const [menuItemOptions, setMenuItemOptions] = useState<MenuItem[]>([]);
-    const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem>();
 
     useEffect(() => {
         async function fetchMenuItems() {
@@ -29,7 +28,6 @@ const SelectMenuItem = ({restaurantID, onSelectMenuItem}: SelectMenuItemProps) =
         placeholder: "Search for order",
         renderOption: (option: MenuItem) => `${option.name} (${option.price})`,
         onSelect: (value: MenuItem) => {
-            setSelectedMenuItem(value);
             onSelectMenuItem(value);
         }
     }
@@ -37,7 +35,6 @@ const SelectMenuItem = ({restaurantID, onSelectMenuItem}: SelectMenuItemProps) =
     return (
         <>
             <SearchSelect {...MenuItemProps}/>
-            <div> The user selected {selectedMenuItem?.name} </div>
         </>
     )
 }

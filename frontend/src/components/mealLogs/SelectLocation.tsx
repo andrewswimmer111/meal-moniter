@@ -12,7 +12,6 @@ type SelectLocationProps = {
 const SelectLocation = ({ onSelectLocation }: SelectLocationProps) => {
 
     const [locationOptions, setLocationOptions] = useState<Location[]>([]);
-    const [selectedLocation, setSelectedLocation] = useState<Location>();
 
     useEffect(() => {
         async function fetchLocations() {
@@ -32,7 +31,6 @@ const SelectLocation = ({ onSelectLocation }: SelectLocationProps) => {
         placeholder: "Search for location",
         renderOption: (option: Location) => option.name,
         onSelect: (value: Location) => {
-            setSelectedLocation(value);
             onSelectLocation(value); 
         }
     }
@@ -40,7 +38,6 @@ const SelectLocation = ({ onSelectLocation }: SelectLocationProps) => {
     return (
         <>
             <SearchSelect {...LocationProps}/>
-            <div> The user selected {selectedLocation?.name} </div>
         </>
     )
 }

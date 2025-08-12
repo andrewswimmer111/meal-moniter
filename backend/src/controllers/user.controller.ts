@@ -1,5 +1,6 @@
 import * as userService from '../services/user.service.js';
 import type { Request, Response, NextFunction } from 'express';
+import { getDate } from '../lib/semesterStart.js';
 
 export const seeAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -78,10 +79,9 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
 
 export const getUserMealHistory = async (req: Request, res: Response, next: NextFunction) => {
   try{
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 1);
-    const userId = Number(req.params.userId);
+    const startDate = getDate();
 
+    const userId = Number(req.params.userId);
     const meals = await userService.getUserMealHistory(userId, startDate)
     res.json(meals)
     

@@ -11,3 +11,11 @@ export const writeMeal = async (userId: number, menuItemId: number, eatenAt?: Da
     return meal
 }
 
+export const deleteMeal = async (mealId: number) => {
+    const meal = await prisma.meal.delete({
+        where: {
+            id: mealId
+        }
+    })
+    return meal
+}

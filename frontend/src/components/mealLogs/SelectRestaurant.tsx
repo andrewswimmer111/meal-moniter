@@ -12,7 +12,6 @@ type SelectRestuarantProps = {
 const SelectRestaurant = ({locationID, onSelectRestaurant} : SelectRestuarantProps) => {
 
     const [restaurantOptions, setRestaurantOptions] = useState<Restaurant[]>([]);
-    const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant>();
 
     useEffect(() => {
         async function fetchRestaurants() {
@@ -30,14 +29,12 @@ const SelectRestaurant = ({locationID, onSelectRestaurant} : SelectRestuarantPro
         placeholder: "Search for restaurant",
         renderOption: (option: Restaurant) => option.name,
         onSelect: (value: Restaurant) => {
-            setSelectedRestaurant(value); 
             onSelectRestaurant(value);
         }
     }
     return (
          <>
             <SearchSelect {...RestaurantProps}/>
-            <div> The user selected {selectedRestaurant?.name} </div>
         </>
     )
 

@@ -1,0 +1,71 @@
+table {
+  width: 100%;
+  border-collapse: collapse; /* collapse borders into single lines */
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+  user-select: none; /* prevents text highlight when clicking headers */
+  cursor: pointer; /* shows pointer for sortable headers */
+}
+
+.meal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.meal-table th,
+.meal-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.meal-table th {
+  background-color: #f5f5f5;
+  user-select: none;
+}
+
+.delete-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #d33;
+}
+
+.delete-button:hover {
+  color: #a00;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  margin: 0 10px;
+  font-weight: 500;
+}
