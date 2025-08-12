@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from "../api_calls/auth";
-import { UserContext } from "../contexts/UserContext";
+import { loginUser } from "../../api_calls/auth";
+import { UserContext } from "../../contexts/UserContext";
 
-import type { LoginInfo } from "../types/auth";
+import type { LoginInfo } from "../../types/auth";
 
 function Login() {
 

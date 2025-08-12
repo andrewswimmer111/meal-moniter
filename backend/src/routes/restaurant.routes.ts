@@ -3,6 +3,6 @@ import { getRestaurantsFromLocation } from '../controllers/restuarant.controller
 
 const router = Router();
 
-router.get('/:locationId', getRestaurantsFromLocation)
+router.get('/:locationID', getRestaurantsFromLocation)
 
 export default router

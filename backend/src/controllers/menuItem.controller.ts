@@ -1,6 +1,16 @@
 import * as menuItemService from '../services/menuItem.service.js'
 import type { Request, Response, NextFunction } from 'express';
 
+export const getMenuItemsFromRestaurant = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const restaurantId = Number(req.params.restaurantId);
+        const menuItems = await menuItemService.getMenuItemsFromRestaurant(restaurantId);
+        res.json(menuItems);
+    } catch (err) {
+        next(err);
+  }
+}
+
 export const getMenuItemsFromRestaurantByCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const restaurantId = Number(req.params.restaurantId);

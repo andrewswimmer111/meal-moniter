@@ -1,5 +1,11 @@
 import prisma from '../lib/prisma.js';
 
+export const getMenuItemsFromRestaurant = async (restaurantId: number) => {
+  const menuItems = await prisma.menuItem.findMany({
+    where: {restaurantId}
+  })
+  return menuItems
+}
 
 export const getMenuItemsFromRestaurantByCategory = async (restaurantId: number) => {
   const categoriesWithItems = await prisma.category.findMany({
@@ -9,6 +15,9 @@ export const getMenuItemsFromRestaurantByCategory = async (restaurantId: number)
           id: restaurantId,
         },
       },
+    },
+    orderBy: {
+      id: 'asc',
     },
     include: {
       menuItems: {

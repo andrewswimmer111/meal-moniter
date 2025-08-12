@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getMenuItemsFromRestaurantByCategory } from '../controllers/menuItem.controller.js';
+import { getMenuItemsFromRestaurant } from '../controllers/menuItem.controller.js';
 
 const router = Router();
 
-router.get('/:restaurantId', getMenuItemsFromRestaurantByCategory)
+router.get('/:restaurantId', getMenuItemsFromRestaurant)
 
 export default router

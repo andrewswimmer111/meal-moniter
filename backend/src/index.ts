@@ -8,6 +8,7 @@ import userRouter from './routes/user.routes.js'
 import locationRouter from './routes/location.routes.js'
 import restaurantRouter from './routes/restaurant.routes.js'
 import menuItemRouter from './routes/menuItem.routes.js'
+import mealRouter from './routes/meal.routes.js'
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/users', userRouter);
 app.use('/locations', locationRouter)
 app.use('/restaurants', restaurantRouter)
 app.use('/menuItems', menuItemRouter)
+app.use('/meals', mealRouter)
 
 app.listen(3000, () => {
   console.log('Server up on port 3000!');

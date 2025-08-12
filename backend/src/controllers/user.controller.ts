@@ -75,3 +75,17 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
     next(error)
   }
 }
+
+export const getUserMealHistory = async (req: Request, res: Response, next: NextFunction) => {
+  try{
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 1);
+    const userId = Number(req.params.userId);
+
+    const meals = await userService.getUserMealHistory(userId, startDate)
+    res.json(meals)
+    
+  } catch (err) {
+    next(err)
+  }
+}

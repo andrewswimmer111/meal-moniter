@@ -1,14 +1,14 @@
 
 export type RegisterInfo = {
-        name: string;
-        email: string;
-        password: string;
-        confirmpassword: string;
+  name: string;
+  email: string;
+  password: string;
+  confirmpassword: string;
 };
 
 export type LoginInfo = {
-        email: string;
-        password: string;
+  email: string;
+  password: string;
 }
 
 export type User = {
