@@ -1,36 +1,37 @@
-table {
+.table-page {
+  background-color: var(--bg-color);
   width: 100%;
-  border-collapse: collapse; /* collapse borders into single lines */
-}
-
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f0f0f0;
-  user-select: none; /* prevents text highlight when clicking headers */
-  cursor: pointer; /* shows pointer for sortable headers */
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .meal-table {
-  width: 100%;
+  margin-top: 1rem;
+  width: 80%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  background-color: var(--header-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  overflow: hidden; /* rounds corners of table background */
 }
 
 .meal-table th,
 .meal-table td {
-  border: 1px solid #ccc;
-  padding: 8px 12px;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 15px;
   text-align: left;
 }
 
 .meal-table th {
-  background-color: #f5f5f5;
+  background-color: var(--button-bg);
   user-select: none;
+  font-weight: 600;
+}
+
+.meal-table td {
+  background-color: var(--header-bg);
 }
 
 .delete-button {
@@ -38,26 +39,30 @@ th {
   border: none;
   cursor: pointer;
   font-size: 1.1rem;
-  color: #d33;
 }
 
-.delete-button:hover {
-  color: #a00;
-}
-
+/* Pagination */
 .pagination-controls {
   display: flex;
+  justify-content: center; /* center the buttons */
   align-items: center;
   gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .pagination-button {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  background: white;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--button-bg);
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s;
   user-select: none;
-  border-radius: 4px;
+}
+
+.pagination-button:hover:enabled {
+  background-color: var(--button-hover);
 }
 
 .pagination-button:disabled {
@@ -68,4 +73,5 @@ th {
 .pagination-info {
   margin: 0 10px;
   font-weight: 500;
+  color: var(--text-color);
 }

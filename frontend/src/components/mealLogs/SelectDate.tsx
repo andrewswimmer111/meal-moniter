@@ -14,7 +14,7 @@ const SelectDate: React.FC<DateTimeInputProps> = ({
   name = "eventDateTime",
 }) => {
   return (
-    <div>
+    <div className="datetime-container">
       <label htmlFor={id}>{label}</label>
       <input
         type="datetime-local"

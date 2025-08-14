@@ -1,9 +1,20 @@
 import Login from "../components/auth/Login"
+import Header from "../components/layout/Header";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+
+    const navigate = useNavigate()
+    const headerButtons = [
+        {
+            label: "No Account?",
+            onClick: () => navigate("/signup"),
+        },
+    ];
+
     return(
         <>
-            Login Here
+            <Header buttons={headerButtons}/>
             <Login />
         </>
     )

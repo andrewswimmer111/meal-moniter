@@ -4,22 +4,23 @@ import { loginUser } from "../../api_calls/auth";
 import { UserContext } from "../../contexts/UserContext";
 
 import type { LoginInfo } from "../../types/auth";
+import './auth.css'
 
 function Login() {
 
     const navigate = useNavigate();
-    const {login} = useContext(UserContext)
+    const { login } = useContext(UserContext)
 
     const [warning, setWarning] = useState("")
     const [loginInfo, setLoginInfo] = useState<LoginInfo>({
-        email: "", 
-        password: "", 
+        email: "",
+        password: "",
     })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
         const value = event.target.value;
-        setLoginInfo(values => ({...values, [name]: value}))
+        setLoginInfo(values => ({ ...values, [name]: value }))
     }
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,28 +40,29 @@ function Login() {
     }
 
     return (
-        <>
-            <form onSubmit={handleLogin}>
-                <label htmlFor="email"> Email: </label>
-                <input 
-                    type="email" 
+        <div className="auth-container">
+            <form className="auth-form" onSubmit={handleLogin}>
+                <h2>Login</h2>
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="email"
                     id="email"
                     name="email"
                     value={loginInfo.email}
                     onChange={handleChange}
-                ></input>
-                <label htmlFor="password"> Password: </label>
-                <input 
-                    type="password" 
+                />
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
                     id="password"
                     name="password"
                     value={loginInfo.password}
                     onChange={handleChange}
-                ></input>
-                <input type="submit" value="Login"></input>
+                />
+                <input type="submit" value="Login" className="auth-button" />
+                {warning && <div className="warning">{warning}</div>}
             </form>
-            <div> {warning} </div>
-        </>
+        </div>
     )
 
 

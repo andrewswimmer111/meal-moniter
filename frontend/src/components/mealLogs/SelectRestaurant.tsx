@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { getRestaurants } from "../../api_calls/meals";
-import SearchSelect from "../SearchSelect";
+import SearchSelect from "./SearchSelect";
 import type { Restaurant } from "../../types/mealLogs";
 
 type SelectRestuarantProps = {

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 
 import type { MenuItem } from "../../types/mealLogs";
 import { getMenuItems } from "../../api_calls/meals";
-import SearchSelect from "../SearchSelect";
+import SearchSelect from "./SearchSelect";
 
 type SelectMenuItemProps = {
     restaurantID: number,
     onSelectMenuItem: (menuItem: MenuItem) => void;
 }
 
-const SelectMenuItem = ({restaurantID, onSelectMenuItem}: SelectMenuItemProps) => {
+const SelectMenuItem = ({ restaurantID, onSelectMenuItem }: SelectMenuItemProps) => {
 
     const [menuItemOptions, setMenuItemOptions] = useState<MenuItem[]>([]);
 
@@ -31,10 +31,10 @@ const SelectMenuItem = ({restaurantID, onSelectMenuItem}: SelectMenuItemProps) =
             onSelectMenuItem(value);
         }
     }
-    
+
     return (
         <>
-            <SearchSelect {...MenuItemProps}/>
+            <SearchSelect {...MenuItemProps} />
         </>
     )
 }

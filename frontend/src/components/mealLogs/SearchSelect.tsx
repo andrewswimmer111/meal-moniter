@@ -31,31 +31,29 @@ const SearchSelect = <T extends HasId>({ options, placeholder, renderOption, onS
     };
 
     return (
-        <>
-            <div>
-                <input 
-                    type="text" 
-                    placeholder={placeholder} 
-                    value={searchTerm}
-                    onChange={handleChange}
-                    onFocus={() => setShowSuggestions(true)}
-                    onBlur={() => setShowSuggestions(false)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" && availableKeywords.length > 0) {
-                            e.preventDefault();
-                            handleSelect(availableKeywords[0]); // select first suggestion
-                        }
-                    }}
-                ></input>
-            </div>
+        <div className="search-container">
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={searchTerm}
+                onChange={handleChange}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setShowSuggestions(false)}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" && availableKeywords.length > 0) {
+                        e.preventDefault();
+                        handleSelect(availableKeywords[0]);
+                    }
+                }}
+            />
+
             {showSuggestions && availableKeywords.length > 0 && (
-                <div>
+                <div className="search-suggestions">
                     <ul>
                         {availableKeywords.map((option) => (
-                            <li 
-                                key={option.id} 
+                            <li
+                                key={option.id}
                                 onClick={() => handleSelect(option)}
-                                style={{ cursor: "pointer" }}
                                 onMouseDown={(e) => e.preventDefault()}
                             >
                                 {renderOption(option)}
@@ -64,7 +62,7 @@ const SearchSelect = <T extends HasId>({ options, placeholder, renderOption, onS
                     </ul>
                 </div>
             )}
-        </>
+        </div>
     )
 }
 

@@ -60,8 +60,8 @@ function SignUp() {
     }
 
     return (
-        <>
-            <form onSubmit={handleRegister}>
+        <div className="auth-container">
+            <form className="auth-form" onSubmit={handleRegister}>
                 <label htmlFor="name"> Name: </label>
                 <input 
                     type="text" 
@@ -94,10 +94,10 @@ function SignUp() {
                     value={registerInfo.confirmpassword}
                     onChange={handleChange}
                 ></input>
-                <input type="submit" value="Sign Up"></input>
+                <input type="submit" value="Sign Up" className="auth-button"></input>
+                {warning && <div className="warning">{warning}</div>}
             </form>
-            <div> {warning} </div>
-        </>
+        </div>
     )
 }
 

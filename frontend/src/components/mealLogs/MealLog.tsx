@@ -7,10 +7,14 @@ import SelectDate from "./SelectDate";
 import DisplayMeal from "./DisplayMeal";
 import { logMeal } from "../../api_calls/meals";
 import type { Location, MenuItem, Restaurant, LogMealInfo } from "../../types/mealLogs";
+import { useNavigate } from "react-router-dom";
+
+import './MealLogs.css'
 
 const MealLog = () => {
 
-    const {user} = useContext(UserContext)
+    const { user } = useContext(UserContext)
+    const navigate = useNavigate()
 
     const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
     const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
@@ -21,7 +25,7 @@ const MealLog = () => {
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const handleSubmit = async () => {
-        
+
         if (selectedRestaurant && selectedMenuItem && user) {
             const eatenAtISO = selectedDate ? new Date(selectedDate).toISOString() : undefined;
 
@@ -40,53 +44,78 @@ const MealLog = () => {
     }
 
     return (
-        <>
-            <div> Welcome, {user?.name} </div>
-            <div> Select Location </div>
-            <SelectLocation onSelectLocation={(loc) => {
-                setSelectedLocation(loc);
-                setSelectedRestaurant(null)
-            }} />
+        <div className="meal-logger-container">
+            <div className="meal-logger-subheader">Record meal below</div>
+            <div className="meal-logger-card">
+                <SelectLocation
+                    onSelectLocation={(loc) => {
+                        setSelectedLocation(loc);
+                        setSelectedRestaurant(null);
+                    }}
+                />
+            </div>
 
             {selectedLocation && (
                 <>
-                    <div> Select Restaurant</div>
-                    <SelectRestaurant
-                        locationID={selectedLocation.id}
-                        onSelectRestaurant={(rest) => {
-                            setSelectedRestaurant(rest);
-                            setSelectedMenuItem(null);
-                        }}
-                    />
+                    <div className="meal-logger-card">
+                        <SelectRestaurant
+                            locationID={selectedLocation.id}
+                            onSelectRestaurant={(rest) => {
+                                setSelectedRestaurant(rest);
+                                setSelectedMenuItem(null);
+                            }}
+                        />
+                    </div>
                 </>
             )}
 
             {selectedLocation && selectedRestaurant && (
                 <>
-                    <div> Select MenuItem </div>
-                    <SelectMenuItem
-                        restaurantID={selectedRestaurant.id}
-                        onSelectMenuItem={(item) => setSelectedMenuItem(item)}
-                    />
+                    <div className="meal-logger-card">
+                        <SelectMenuItem
+                            restaurantID={selectedRestaurant.id}
+                            onSelectMenuItem={(item) => setSelectedMenuItem(item)}
+                        />
+                    </div>
                 </>
             )}
 
             {selectedLocation && selectedRestaurant && selectedMenuItem && (
-                <>
-                    <DisplayMeal menuItem={selectedMenuItem} restuarant={selectedRestaurant} />
+                <div className="meal-logger-card">
+                    <DisplayMeal
+                        menuItem={selectedMenuItem}
+                        restuarant={selectedRestaurant}
+                    />
                     <SelectDate value={selectedDate} onChange={setSelectedDate} />
-                    <button onClick={handleSubmit} disabled={buttonDisabled}> submit meal </button>
-                    <div> {message} </div>
-                </>
+                    <button
+                        className="meal-logger-button"
+                        onClick={handleSubmit}
+                        disabled={buttonDisabled}
+                    >
+                        Submit Meal
+                    </button>
+                    {message && <div className="message">{message}</div>}
+                </div>
             )}
-
 
             {buttonDisabled && (
-                <>
-                    <button onClick={() => window.location.reload()}>Log new meal</button>
-                </>
+                <div className="button-container">
+                    <button
+                        className="meal-logger-button"
+                        onClick={() => navigate('/dashboard')}
+                    >
+                        Return To Dashboard
+                    </button>
+                    <button
+                        className="meal-logger-button"
+                        onClick={() => window.location.reload()}
+                    >
+                        Log New Meal
+                    </button>
+                </div>
             )}
-        </>
+        </div>
+
     )
 };
 

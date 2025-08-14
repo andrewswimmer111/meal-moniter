@@ -1,11 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
+
+  --bg-color: #e0e0e0;       /* soft silver background */
+  --text-color: #2d2d2d;     /* dark gray text */
+  --header-bg: #cfcfcf;      /* slightly darker silver for header */
+  --button-bg: #b0b0b0;      /* medium gray buttons */
+  --button-text: #1a1a1a;    /* dark button text */
+  --button-hover: #9e9e9e;   /* hover shade */
+
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,6 +46,7 @@ body {
   margin: 0;
   display: flex;
   min-width: 320px;
+  width: 100%;
   min-height: 100vh;
   /* place-items: center; */
 }

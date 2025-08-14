@@ -105,7 +105,7 @@ const MealHistoryTableComponent: React.FC<Props> = ({ meals, onDataChange }) => 
     });
 
     return (
-        <>
+        <div className="table-page">
             <table className="meal-table">
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
@@ -169,7 +169,7 @@ const MealHistoryTableComponent: React.FC<Props> = ({ meals, onDataChange }) => 
                     {">>"}
                 </button>
             </div>
-        </>
+        </div>
     );
 };
 

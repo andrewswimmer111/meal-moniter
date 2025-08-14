@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { getAllLocations } from "../../api_calls/meals";
-import SearchSelect from "../SearchSelect";
+import SearchSelect from "./SearchSelect";
 import type { Location } from "../../types/mealLogs";
 
 
@@ -31,13 +31,13 @@ const SelectLocation = ({ onSelectLocation }: SelectLocationProps) => {
         placeholder: "Search for location",
         renderOption: (option: Location) => option.name,
         onSelect: (value: Location) => {
-            onSelectLocation(value); 
+            onSelectLocation(value);
         }
     }
 
     return (
         <>
-            <SearchSelect {...LocationProps}/>
+            <SearchSelect {...LocationProps} />
         </>
     )
 }
