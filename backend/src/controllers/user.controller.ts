@@ -1,6 +1,7 @@
 import * as userService from '../services/user.service.js';
 import type { Request, Response, NextFunction } from 'express';
-import { getDate } from '../lib/semesterStart.js';
+import { getStartDate } from '../lib/semesterStart.js';
+import { formatAllData } from '../lib/statsFormatHelper.js';
 
 export const seeAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -79,13 +80,33 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
 
 export const getUserMealHistory = async (req: Request, res: Response, next: NextFunction) => {
   try{
-    const startDate = getDate();
+    const startDate = getStartDate();
 
     const userId = Number(req.params.userId);
     const meals = await userService.getUserMealHistory(userId, startDate)
     res.json(meals)
-    
   } catch (err) {
+    next(err)
+  }
+}
+
+export const getUserStats = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const startDate = getStartDate();
+    const userId = Number(req.params.userId);
+    
+    const meals = await userService.getUserMealHistory(userId, startDate)
+
+    // Type correction for helper funciton
+    const mealsWithStringDates = meals.map(m => ({
+      ...m,
+      eatenAt: m.eatenAt.toISOString(),
+    }));
+
+    const stats = formatAllData(mealsWithStringDates)
+    return res.json(stats)
+    
+  } catch(err) {
     next(err)
   }
 }

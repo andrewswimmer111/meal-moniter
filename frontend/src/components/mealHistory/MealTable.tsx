@@ -3,7 +3,7 @@ import { getMealHistory } from "../../api_calls/stats";
 import { UserContext } from "../../contexts/UserContext";
 import { useEffect, useContext, useState } from "react";
 
-import type { Meal, TableMeal } from "../../types/stats";
+import type { Meal, TableMeal } from "../../types/table";
 
 const MealTable = () => {
 

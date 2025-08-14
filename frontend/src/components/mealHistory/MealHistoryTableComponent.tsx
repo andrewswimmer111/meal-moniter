@@ -7,7 +7,7 @@ import {
     flexRender,
 } from "@tanstack/react-table";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
-import type { TableMeal } from "../../types/stats";
+import type { TableMeal } from "../../types/table";
 
 import './MealHistory.css'
 import { deleteMeal } from "../../api_calls/stats";
