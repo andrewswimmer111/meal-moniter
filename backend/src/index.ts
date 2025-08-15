@@ -14,7 +14,7 @@ import mealRouter from './routes/meal.routes.js'
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://vcm-48060.vm.duke.edu'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
