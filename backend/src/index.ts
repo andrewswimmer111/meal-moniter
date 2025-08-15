@@ -32,6 +32,6 @@ app.use('/restaurants', restaurantRouter)
 app.use('/menuItems', menuItemRouter)
 app.use('/meals', mealRouter)
 
-app.listen(3000, () => {
-  console.log('Server up on port 3000!');
+app.listen(3002, () => {
+  console.log('Server up on port 3002!');
 });
