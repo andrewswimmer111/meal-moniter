@@ -20,7 +20,7 @@ function MealTablePage() {
         },
         {
             label: "Log out",
-            onClick: () => {logout(); navigate("/landing")},
+            onClick: () => {logout(); navigate("/")},
         },
     ]
 

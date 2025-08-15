@@ -95,8 +95,10 @@ export const formatAllData = (meals: MealHistoryEntry[]): FormattedStatsData => 
 // STATS
 const getTotalMeals = (meals: MealHistoryEntry[]): number => meals.length;
 
-const getTotalSpending = (meals: MealHistoryEntry[]): number =>
-  meals.reduce((sum, m) => sum + Number((m.menuItem.price * 1.075).toFixed(2)), 0);
+const getTotalSpending = (meals: MealHistoryEntry[]): number => {
+  const total = meals.reduce((sum, m) => sum + m.menuItem.price * 1.075, 0);
+  return Math.round(total * 100) / 100; 
+};
 
 const getFavoriteMeal = (meals: MealHistoryEntry[]): { name: string; count: number } => {
   const counts: Record<string, number> = {};
@@ -246,15 +248,15 @@ const getSpendingLine = (meals: MealHistoryEntry[]) => {
 
   meals
     .slice()
-    .map(m => {
-      cumulative += Number((m.menuItem.price * 1.075).toFixed(2));
+    .forEach(m => {
+      cumulative += m.menuItem.price * 1.075;
       const date = (m.eatenAt.split("T")[0]) as string
       dailyTotals[date] = cumulative
     });
 
   return Object.entries(dailyTotals).map(([date, cumulativePoints]) => ({
     date,
-    cumulativePoints,
+    cumulativePoints: Number(cumulativePoints.toFixed(2)),
   }));
 };
 
@@ -271,7 +273,11 @@ const getHowStats = (meals: MealHistoryEntry[]) => {
     (1000 * 60 * 60 * 24);
 
   return {
-    avgPointsPerMeal: totalMeals ? totalSpending / totalMeals : 0,
-    avgPointsPerDay: days ? totalSpending / days : 0,
+    avgPointsPerMeal: totalMeals
+      ? parseFloat((totalSpending / totalMeals).toFixed(2))
+      : 0,
+    avgPointsPerDay: days
+      ? parseFloat((totalSpending / days).toFixed(2))
+      : 0,
   };
 };

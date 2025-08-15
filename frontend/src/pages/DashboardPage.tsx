@@ -21,15 +21,17 @@ function DashBoardPage() {
         },
         {
             label: "Log out",
-            onClick: () => {logout(); navigate("/landing")},
+            onClick: () => {logout(); navigate("/")},
         },
     ];
 
     return (
         <>
             <Header buttons={headerButtons}/> 
-            <h1>Welcome {user?.name}</h1>
-            <StatsMaster />
+            <div className="dashboard-page">
+                <h1 className="dashboard-welcome">Welcome {user?.name}</h1>
+                <StatsMaster />
+            </div>
         </>
     )
 }

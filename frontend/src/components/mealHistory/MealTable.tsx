@@ -43,7 +43,9 @@ const MealTable = () => {
                 mealData.length > 0 ? (
                     <MealHistoryTableComponent meals={mealData} onDataChange={setDataChange}/>
                 ) : 
-                <div> No meals found. </div>
+                <>
+                    <div className="table-page" style={{paddingTop: "2rem"}}> No meals found. </div>
+                </>
             }
         </>
     )

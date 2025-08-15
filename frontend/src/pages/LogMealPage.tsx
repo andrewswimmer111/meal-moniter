@@ -21,7 +21,7 @@ export default function LogMealPage() {
         },
         {
             label: "Log out",
-            onClick: () => {logout(); navigate("/landing")},
+            onClick: () => {logout(); navigate("/")},
         },
     ];
 

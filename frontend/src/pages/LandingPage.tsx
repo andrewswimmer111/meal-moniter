@@ -1,15 +1,24 @@
 import Header from "../components/layout/Header"
 import { useNavigate } from "react-router-dom"
 import "./CombinedCSS.css";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 function LandingPage() {
 
     const navigate = useNavigate()
+    const { user } = useContext(UserContext);
 
     const headerButtons = [
         {
             label: "Login",
-            onClick: () => navigate("/login"),
+            onClick: () => {
+                if (user) {
+                    navigate("/dashboard");
+                } else {
+                    navigate("/login");
+                }
+            },
         },
     ];
 
