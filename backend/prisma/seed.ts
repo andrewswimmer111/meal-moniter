@@ -144,7 +144,7 @@ const CampusData = [
     name: "Brodhead Center (WU)",
     restaurants: [
       "Il Forno",
-      "GSoy",
+      "Ginger and Soy",
       "JB's",
       "Farmstead & Sprout",
       "Cafe",
