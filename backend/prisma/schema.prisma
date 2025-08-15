@@ -35,6 +35,7 @@ model Meal {
   menuItemId Int
 
   @@index([userId, eatenAt])
+  @@unique([userId, eatenAt])
 }
 
 model MenuItem {
@@ -51,6 +52,7 @@ model MenuItem {
   categoryId   Int
 
   @@index([restaurantId, categoryId])
+  @@unique([name, restaurantId]) 
 }
 
 model Category {

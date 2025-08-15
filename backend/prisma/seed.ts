@@ -1,22 +1,27 @@
-import { PrismaClient} from '../generated/prisma/index.js'
+import { PrismaClient } from '../generated/prisma/index.js'
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient()
 
-// TODO: Make this not duplicate on reruns!
-
 async function main() {
+
+  // Create location data
   const categoryCache = new Map<string, number>();
 
   for (const campus of CampusData) {
-    const location = await prisma.location.create({
-      data: {
-        name: campus.name,
-      },
+    // Upsert location
+    const location = await prisma.location.upsert({
+      where: { name: campus.name },
+      update: {}, // nothing to update for now
+      create: { name: campus.name },
     });
 
     for (const restaurantName of campus.restaurants) {
-      const restaurant = await prisma.restaurant.create({
-        data: {
+      // Upsert restaurant
+      const restaurant = await prisma.restaurant.upsert({
+        where: { name: restaurantName },
+        update: {}, // add updates if needed
+        create: {
           name: restaurantName,
           locationId: location.id,
         },
@@ -31,6 +36,7 @@ async function main() {
         if (categoryCache.has(categoryName)) {
           categoryId = categoryCache.get(categoryName)!;
 
+          // Connect restaurant to category if not already connected
           await prisma.restaurant.update({
             where: { id: restaurant.id },
             data: {
@@ -39,25 +45,36 @@ async function main() {
               },
             },
           });
-
         } else {
-          const category = await prisma.category.create({
-            data: {
+          // Upsert category
+          const category = await prisma.category.upsert({
+            where: { name: categoryName },
+            update: {
+              restaurants: {
+                connect: { id: restaurant.id },
+              },
+            },
+            create: {
               name: categoryName,
               restaurants: {
                 connect: { id: restaurant.id },
               },
             },
           });
+
           categoryId = category.id;
           categoryCache.set(categoryName, categoryId);
         }
 
         const items = menu[categoryName];
         if (!items) continue;
+
         for (const { item, price } of items) {
-          await prisma.menuItem.create({
-            data: {
+          // Upsert menu item
+          await prisma.menuItem.upsert({
+            where: { name_restaurantId: { name: item, restaurantId: restaurant.id } },
+            update: { price, categoryId },
+            create: {
               name: item,
               price,
               restaurantId: restaurant.id,
@@ -68,44 +85,94 @@ async function main() {
       }
     }
   }
+
+  // Create a test user
+  const testEmail = "punkrocker@gmail.com";
+  const testName = "Superman";
+  const testPassword = "yesiam";
+  const hashedPassword = await bcrypt.hash(testPassword, 10);
+
+  const user = await prisma.user.upsert({
+    where: { email: testEmail },
+    update: {},
+    create: {
+      name: testName,
+      email: testEmail,
+      password: hashedPassword,
+    },
+  });
+  const menuItems = await prisma.menuItem.findMany();
+  const menuItemIds = menuItems.map(mi => mi.id);
+
+  if (menuItemIds.length === 0) {
+    console.warn("No menu items found. Skipping meal creation.");
+  } else {
+    // Create 90 meals for September 2025
+    const mealAnchors = [8, 13, 19];
+
+    for (let day = 1; day <= 30; day++) {
+      for (const anchor of mealAnchors) {
+        const offset = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
+        const hour = anchor + offset;
+        const eatenAt = new Date(2025, 8, day, hour, 0, 0);
+
+        // Pick a random menu item
+        const randomIndex = Math.floor(Math.random() * menuItemIds.length);
+        const menuItemId = menuItemIds[randomIndex]!;
+
+        await prisma.meal.upsert({
+          where: {
+            userId_eatenAt: { userId: user.id, eatenAt },
+          },
+          update: {},
+          create: {
+            userId: user.id,
+            menuItemId,
+            eatenAt,
+          },
+        });
+      }
+    }
+  }
 }
+
 
 // All data is below
 const CampusData = [
-    {
-        id: "1",
-        name: "Brodhead Center (WU)",
-        restaurants: [
-            "Il Forno",
-            "GSoy",
-            "JB's",
-            "Farmstead & Sprout",
-            "Cafe",
-            "Sazon",
-            "Skillet",
-            "Tandoor",
-            "Kraft",
-            "Gyotaku"
-        ]
-    },
-    {
-        id: "2",
-        name: "Bryan Center",
-        restaurants: [
-            "McDonalds",
-            "Beyu Blue",
-            "Gothic Grill",
-            "It's Thyme"
-        ]
-    },
-    {
-        id: "3",
-        name: "Other on campus",
-        restaurants: [
-            "Red Mango",
-            "Pitchfork's",
-        ]
-    }
+  {
+    id: "1",
+    name: "Brodhead Center (WU)",
+    restaurants: [
+      "Il Forno",
+      "GSoy",
+      "JB's",
+      "Farmstead & Sprout",
+      "Cafe",
+      "Sazon",
+      "Skillet",
+      "Tandoor",
+      "Kraft",
+      "Gyotaku"
+    ]
+  },
+  {
+    id: "2",
+    name: "Bryan Center",
+    restaurants: [
+      "McDonalds",
+      "Beyu Blue",
+      "Gothic Grill",
+      "It's Thyme"
+    ]
+  },
+  {
+    id: "3",
+    name: "Other on campus",
+    restaurants: [
+      "Red Mango",
+      "Pitchfork's",
+    ]
+  }
 ]
 
 export type MenuItem = {
@@ -166,7 +233,7 @@ const MenuData: MenuData = {
     ]
   },
 
-  "GSoy": {
+  "Ginger and Soy": {
     "Plates": [
       { item: "California (Tofu) Bowl", price: 10.89 },
       { item: "Shanghai (Ginger Chicken) Bowl", price: 11.29 },
@@ -230,20 +297,20 @@ const MenuData: MenuData = {
       { item: "Turkey Swiss avocado", price: 9.99 },
       { item: "Chicken Caesar wrap", price: 9.99 },
       { item: "Two sliders", price: 11.49 }
-    ],    
+    ],
     "Farmstead Entrees": [
       { item: "Spanakopita", price: 11.89 },
       { item: "Honey garlic chicken", price: 11.89 },
       { item: "Bourbon garlic chicken", price: 11.89 },
       { item: "Turkey leg", price: 13.89 },
       { item: "Salmon", price: 15.99 }
-    ],    
+    ],
     "Farmstead Meat": [
       { item: "Gyro", price: 11.89 },
       { item: "Ham", price: 11.89 },
       { item: "Roasted turkey", price: 11.89 },
       { item: "Beef brisket", price: 13.89 }
-    ],    
+    ],
     "Sprout Items": [
       { item: "Yogurt Bar", price: 6.29 },
       { item: "Soy nugget", price: 6.99 },
@@ -258,7 +325,7 @@ const MenuData: MenuData = {
       { item: "Black pepper tofu", price: 11.89 },
       { item: "Three bean chili", price: 11.89 },
       { item: "Chickpea stew", price: 11.89 }
-    ],    
+    ],
     "Sides": [
       { item: "Banana", price: 0.99 },
       { item: "Orange", price: 1.29 },
@@ -272,7 +339,7 @@ const MenuData: MenuData = {
       { item: "Pellegrino flavored", price: 2.49 },
       { item: "Sparkling Pellegrino", price: 2.79 },
       { item: "Vitamin Water", price: 2.99 }
-    ]    
+    ]
   },
 
   "Cafe": {
@@ -291,7 +358,7 @@ const MenuData: MenuData = {
       { item: "Southwest Chicken Bowl", price: 10.69 },
       { item: "Salmon Bowl", price: 12.99 }
     ],
-    "Pastries & Desserts": [ 
+    "Pastries & Desserts": [
       { item: "Chocolate Chip Scone", price: 3.99 },
       { item: "Pumpkin Sweet Bread", price: 3.99 },
       { item: "Cookie", price: 3.99 },
@@ -326,7 +393,7 @@ const MenuData: MenuData = {
       { item: "Mocha Latte", price: 5.49 },
       { item: "Frappe", price: 5.99 }
     ],
-    "Smoothies & Fresh Juices": [ 
+    "Smoothies & Fresh Juices": [
       { item: "Apple Juice", price: 5.99 },
       { item: "Carrot Juice", price: 5.99 },
       { item: "Green Monster", price: 5.99 },
@@ -335,7 +402,7 @@ const MenuData: MenuData = {
       { item: "Strawberry Smoothie", price: 5.99 },
       { item: "Mango Smoothie", price: 5.99 }
     ],
-    "Crepes": [ 
+    "Crepes": [
       { item: "Cinnamon Sugar Crepe", price: 5.99 },
       { item: "Chocolate Crepe", price: 7.49 },
       { item: "Apple and Brie Crepe", price: 8.69 },
@@ -409,7 +476,7 @@ const MenuData: MenuData = {
       { item: "Four pancakes", price: 9.99 },
       { item: "Chicken and waffles", price: 10.49 },
       { item: "Omelette", price: 10.59 }
-    ],    
+    ],
     "Breakfast Sides": [
       { item: "Banana", price: 0.99 },
       { item: "Orange", price: 1.29 },
@@ -437,7 +504,7 @@ const MenuData: MenuData = {
       { item: "Apple cobbler", price: 4.99 },
       { item: "Banana pudding", price: 4.99 },
       { item: "Chocolate pie", price: 4.99 }
-    ]    
+    ]
   },
 
   "Tandoor": {
@@ -521,12 +588,14 @@ const MenuData: MenuData = {
       { item: "Jarritos", price: 2.89 },
       { item: "Mexican Sprite", price: 2.99 },
       { item: "Liquid Death", price: 2.99 }
-    ]        
+    ]
   },
 
   "Gyotaku": {
     Food: [
-      { item: "Menu unavailable", price: 1.00 }
+      { item: "California Roll", price: 7.89 },
+      { item: "Salmon Avocado", price: 9.29 },
+      { item: "Other Sushi", price: 11.99 },
     ]
   },
 
@@ -613,11 +682,12 @@ const MenuData: MenuData = {
       { item: "Strawberry Shake", price: 3.99 },
       { item: "Vanilla Shake", price: 3.99 }
     ]
-  },  
+  },
 
   "Beyu Blue": {
-    Food: [
-      { item: "Menu unavailable", price: 1.00 }
+    Drinks: [
+      { item: "Coffee", price: 3.09 },
+      { item: "Cappucino", price: 4.99 },
     ]
   },
 
@@ -709,16 +779,17 @@ const MenuData: MenuData = {
       { item: "Yerba Mate", price: 4.39 }
     ]
   },
-  
-  
+
+
   "It's Thyme": {
-    Food: [
-      { item: "Menu unavailable", price: 1.00 }
+    "Food": [
+      { item: "Acai Bowl", price: 10.89 },
+      { item: "BYO Bowl", price: 11.99 },
     ]
   },
 
   "Red Mango": {
-    Smoothies: [
+    "Smoothies": [
       { item: "Berry Banana", price: 6.99 },
       { item: "Pina Colada", price: 6.99 },
       { item: "Strawberry Banana", price: 6.99 },
@@ -745,8 +816,8 @@ const MenuData: MenuData = {
       { item: "Super PB Cup Lg", price: 8.99 },
       { item: "SPK Lg", price: 8.99 },
       { item: "Velvet Green Lg", price: 8.99 }
-    ],    
-    Bowls: [
+    ],
+    "Bowls": [
       { item: "Berry and Acai", price: 10.69 },
       { item: "Choco-Nut Dream", price: 10.69 },
       { item: "Honey Apple Bowl", price: 10.69 },
@@ -757,7 +828,7 @@ const MenuData: MenuData = {
       { item: "Chia Seed Pudding Bowl", price: 11.19 },
       { item: "Quinoa and Black Bean Bowl", price: 11.19 }
     ],
-    Sandwiches: [
+    "Sandwiches": [
       { item: "Turkey & Cheese", price: 7.40 },
       { item: "Chicken Caesar", price: 8.39 },
       { item: "Chicken Salad", price: 8.39 },
@@ -774,13 +845,13 @@ const MenuData: MenuData = {
       { item: "Ham & Cheese", price: 8.69 },
       { item: "Club", price: 9.29 },
       { item: "Philly Steak", price: 10.19 }
-    ], 
-    PBJ: [
+    ],
+    "PBJ": [
       { item: "Fresh Berry Grilled PB&J", price: 7.19 },
       { item: "Grilled Banana Delight", price: 7.19 },
       { item: "Grilled Banana PB&J", price: 7.19 }
     ],
-    Breakfast: [
+    "Breakfast": [
       { item: "Avocado Toast", price: 6.19 },
       { item: "Avocado Egg & Cheese", price: 6.19 },
       { item: "Bacon Egg & Cheese", price: 6.19 },
@@ -789,9 +860,13 @@ const MenuData: MenuData = {
   },
 
   "Pitchfork's": {
-    Food: [
-      { item: "Menu unavailable", price: 1.00 }
-    ]
+    "Food": [
+      { item: "Breakfast Quesadilla", price: 10.99 },
+      { item: "Omelette", price: 10.59 },
+      { item: "Half Stack Pancakes", price: 7.99 },
+      { item: "Full Stack Pancakes", price: 9.99 },
+      { item: "Breakfast Biscuit (Egg Cheese and Protien", price: 6.49 },
+    ],
   },
 };
 

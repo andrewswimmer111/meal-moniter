@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { addDays, subDays, format } from "date-fns";
+import { subDays } from "date-fns";
 import type { LocationCumulativeData } from "../../types/stats";
 
 interface Props {
