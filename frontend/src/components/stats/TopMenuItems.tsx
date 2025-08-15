@@ -6,18 +6,18 @@ interface Props {
   topN?: number; // optional, default top 10
 }
 
-export const TopMenuItemsBarChart: React.FC<Props> = ({ data, topN = 10 }) => {
+export const TopMenuItemsBarChart: React.FC<Props> = ({ data, topN = 20 }) => {
   const sortedData = [...data]
     .sort((a, b) => b.count - a.count)
     .slice(0, topN);
 
   return (
-    <div className="graph-container" style={{width: "90%"}}>
-      <h3> Frequency of all menu items ordered</h3>
+    <div className="graph-container" style={{width: "95%"}}>
+      <h3> Frequency of Top 20 Menu Items Ordered</h3>
     <ResponsiveContainer width="100%" height={550}>
       <BarChart
         data={sortedData}
-        margin={{ top: 20, right: 30, left: 20, bottom: 50 }}
+        margin={{ top: 20, right: 70, left: 70, bottom: 50 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis 

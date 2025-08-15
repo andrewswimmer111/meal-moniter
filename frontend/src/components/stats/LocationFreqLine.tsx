@@ -26,9 +26,15 @@ export const LocationCumulativeLineChart: React.FC<Props> = ({ data, locations }
     <div className="graph-container" style={{ width: "50%" }}>
       <h3>Frequency of Visits to Favorite 5 Restaurants Over Time </h3>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+        <LineChart data={chartData} margin={{ top: 20, right: 50, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" textAnchor="start" interval={5} />
+          <XAxis dataKey="date" textAnchor="start" interval={5}
+            tickFormatter={(dateStr) => {
+              const date = new Date(dateStr);
+              const month = (date.getMonth() + 1).toString().padStart(2, "0");
+              const day = date.getDate().toString().padStart(2, "0");
+              return `${month}-${day}`;
+            }} />
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Legend verticalAlign="top" align="center" height={36} />

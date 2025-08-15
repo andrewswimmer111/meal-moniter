@@ -48,8 +48,8 @@ function StatsMaster() {
                         <h2> Quick Stats</h2>
                         <div className="quick-stats-cards">
                             <BasicStatsCard sentence={`You've spent $${statData.stats.totalSpending} on ${statData.stats.totalMeals} meals so far.`} />
-                            <BasicStatsCard sentence={`Your favorite meal is the ${statData.stats.favoriteMeal}, ordered ${statData.stats.favoriteMealQuantity} times.`} />
-                            <BasicStatsCard sentence={`You visit ${statData.stats.favoriteRestaurant} the most, with ${statData.stats.favoriteRestaurantQuantity} visits.`} />
+                            <BasicStatsCard sentence={`Your favorite menu item is the ${statData.stats.favoriteMeal}, ordered ${statData.stats.favoriteMealQuantity} times.`} />
+                            <BasicStatsCard sentence={`You visit ${statData.stats.favoriteRestaurant} the most. You've gone ${statData.stats.favoriteRestaurantQuantity} times!`} />
                         </div>
                     </div>
                     <hr />

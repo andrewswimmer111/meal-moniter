@@ -12,12 +12,14 @@
     margin-bottom: 16px;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 30vw;
 }
 
 .basic-stats-text {
     font-size: 1.1rem;
     color: var(--text-color);
+    text-align: center;
 }
 
 
