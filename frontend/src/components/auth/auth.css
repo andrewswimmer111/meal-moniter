@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 92vh;
-  background-color: var(--bg-color);
+  background-color: var(--bg-color); /* light silver/white background */
   padding: 1rem;
 }
 
@@ -12,10 +12,10 @@
   flex-direction: column;
   gap: 1rem;
   padding: 2rem;
-  background-color: var(--header-bg); /* card pops out slightly */
-  color: var(--text-color);
+  background-color: var(--card-bg); /* card pops out with white background */
+  color: var(--text-color);         /* dark gray text for readability */
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--card-shadow); /* soft shadow */
   width: 100%;
   max-width: 400px;
 }
@@ -23,6 +23,7 @@
 .auth-form h2 {
   text-align: center;
   margin-bottom: 1rem;
+  color: var(--header-text); /* light gray/white header-style text */
 }
 
 .auth-form label {
@@ -34,8 +35,10 @@
 .auth-form input[type="password"] {
   padding: 0.5rem;
   border-radius: 6px;
-  border: 1px solid #aaa;
+  border: 1px solid var(--subtle-gray);
   font-size: 1rem;
+  background-color: var(--bg-color-soft); /* very light background for inputs */
+  color: var(--text-color);
 }
 
 .auth-button {
@@ -48,11 +51,12 @@
   font-size: 1rem;
   font-weight: 500;
   margin-top: 0.5rem;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .auth-button:hover {
   background-color: var(--button-hover);
+  transform: translateY(-2px);
 }
 
 .warning {

@@ -10,13 +10,30 @@ html, body, #root {
 }
 
 :root {
+  
+  /* Base background & text */
+  --bg-color: #f8f9fa;        /* very light silver/white background */
+  --bg-color-soft: #e6e8eb;        /* very light silver/white background */
+  --text-color: #2d2d2d;      /* dark gray for main text for readability */
 
-  --bg-color: #e0e0e0;       /* soft silver background */
-  --text-color: #2d2d2d;     /* dark gray text */
-  --header-bg: #cfcfcf;      /* slightly darker silver for header */
-  --button-bg: #b0b0b0;      /* medium gray buttons */
-  --button-text: #1a1a1a;    /* dark button text */
-  --button-hover: #9e9e9e;   /* hover shade */
+  /* Header */
+  --header-bg: #0d1b2a;       /* deep navy blue header */
+  --header-text: #f8f9fa;     /* light gray/white text for header */
+
+  /* Buttons & CTA */
+  --button-bg: #1f3a93;       /* rich deep blue */
+  --button-text: #ffffff;     /* white text for contrast */
+  --button-hover: #162d73;    /* darker blue hover shade */
+  --button-accent: #ffcc00;   /* optional accent yellow for hover/border highlights */
+
+  /* Card / secondary backgrounds */
+  --card-bg: #ffffff;          /* white cards for content */
+  --card-shadow: rgba(0,0,0,0.08); /* soft shadow for depth */
+
+  /* Accent colors */
+  --accent-primary: #1f3a93;   /* same deep blue for links/icons */
+  --accent-secondary: #ffcc00; /* warm yellow for small highlights */
+  --subtle-gray: #e0e0e0;      /* light gray for borders/dividers */
 
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

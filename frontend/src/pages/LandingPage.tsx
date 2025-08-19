@@ -27,12 +27,14 @@ function LandingPage() {
         <>
             <Header buttons={headerButtons} />
             <main className="landing-container">
-                <h1>So many points. So little memory.</h1>
-                <h2>Don't worry. We'll remember for you.</h2>
-                <h3>Look back on your food point usage. Dive into fun analytics, favorite spots, and forgotten late-night snacks.</h3>
-                <button className="cta-button" onClick={() => navigate("/signup")}>
-                    Get started today
-                </button>
+                <div className="landing-content">
+                    <h1>So many points. So little memory.</h1>
+                    <h2>Don't worry. We'll remember for you.</h2>
+                    <h3>Look back on your food point usage. <br /> Dive into fun analytics, favorite spots, and forgotten late-night snacks.</h3>
+                    <button className="cta-button" onClick={() => navigate("/signup")}>
+                        Get started today
+                    </button>
+                </div>
             </main>
         </>
     );

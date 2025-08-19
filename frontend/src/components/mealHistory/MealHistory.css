@@ -1,5 +1,5 @@
 .table-page {
-  background-color: var(--bg-color);
+  background-color: var(--bg-color); /* very light silver/white */
   width: 100%;
   height: 92vh;
   display: flex;
@@ -11,27 +11,30 @@
   margin-top: 1rem;
   width: 80%;
   border-collapse: collapse;
-  background-color: var(--header-bg);
-  color: var(--text-color);
+  background-color: var(--card-bg); /* white card background */
+  color: var(--text-color);         /* dark gray text */
   border-radius: 8px;
   overflow: hidden; /* rounds corners of table background */
+  box-shadow: 0 6px 20px var(--card-shadow); /* subtle depth */
 }
 
 .meal-table th,
 .meal-table td {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--subtle-gray);
   padding: 10px 15px;
   text-align: left;
 }
 
 .meal-table th {
-  background-color: var(--button-bg);
+  background-color: var(--button-bg); /* deep blue header cells */
+  color: var(--button-text);          /* white text */
   user-select: none;
   font-weight: 600;
 }
 
 .meal-table td {
-  background-color: var(--header-bg);
+  background-color: var(--card-bg);   /* white row background */
+  color: var(--text-color);
 }
 
 .delete-button {
@@ -39,6 +42,12 @@
   border: none;
   cursor: pointer;
   font-size: 1.1rem;
+  color: var(--accent-secondary);     /* yellow accent for delete icon */
+  transition: color 0.2s;
+}
+
+.delete-button:hover {
+  color: var(--button-hover);         /* darker blue on hover */
 }
 
 /* Pagination */
@@ -57,12 +66,13 @@
   color: var(--button-text);
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
   user-select: none;
 }
 
 .pagination-button:hover:enabled {
   background-color: var(--button-hover);
+  transform: translateY(-2px);
 }
 
 .pagination-button:disabled {

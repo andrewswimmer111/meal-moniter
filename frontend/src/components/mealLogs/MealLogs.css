@@ -3,9 +3,10 @@
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg-color); /* very light silver/white */
+  color: var(--text-color);         /* dark gray text */
   min-height: 92vh;
+  max-height: 92vh;
   gap: 1.5rem;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
@@ -14,13 +15,14 @@
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
+  color: var(--text-color);
 }
 
 .meal-logger-card {
-  background-color: var(--header-bg); /* subtle card for sections */
+  background-color: var(--card-bg); /* white card */
   padding: 1rem 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--card-shadow);
   width: 100%;
   max-width: 500px;
   display: flex;
@@ -30,21 +32,20 @@
 }
 
 .meal-logger-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
+  background-color: var(--button-bg); /* deep blue button */
+  color: var(--button-text);          /* white text */
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 0.5rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
+  transition: background-color 0.2s, transform 0.2s;
+  margin: 0.5rem 1rem;
 }
 
 .meal-logger-button:hover:enabled {
   background-color: var(--button-hover);
+  transform: translateY(-2px);
 }
 
 .meal-logger-button:disabled {
@@ -55,12 +56,12 @@
 .message {
   text-align: center;
   font-weight: 500;
-  color: #2d2d2d;
+  color: var(--text-color);
 }
 
 .button-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 /* SEARCHSELECT */
@@ -69,20 +70,22 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 500px; /* optional max width */
+  max-width: 500px;
   margin: 0 auto;
   gap: 0.5rem;
 }
 
 .search-container input {
   width: 100%;
-  padding: 0.75rem 1rem;       /* bigger input */
-  font-size: 1.1rem;           /* larger text */
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
   border-radius: 8px;
-  border: 1px solid #aaa;
-  text-align: center;           /* center text inside input */
+  border: 1px solid var(--subtle-gray);
+  text-align: center;
   box-sizing: border-box;
   outline: none;
+  background-color: var(--bg-color-soft);
+  color: var(--text-color);
 }
 
 .search-container input:focus {
@@ -92,9 +95,9 @@
 
 .search-suggestions {
   width: 100%;
-  background-color: var(--header-bg);
+  background-color: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--card-shadow);
   max-height: 200px;
   overflow-y: auto;
   margin-top: 0.25rem;
@@ -119,7 +122,6 @@
   color: var(--button-text);
 }
 
-
 /* DATETIME */
 .datetime-container {
   display: flex;
@@ -140,9 +142,11 @@
   padding: 0.75rem 1rem;
   font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #aaa;
-  text-align: center; 
+  border: 1px solid var(--subtle-gray);
+  text-align: center;
   outline: none;
+  background-color: var(--bg-color-soft);
+  color: var(--text-color);
 }
 
 .datetime-container input[type="datetime-local"]:focus {

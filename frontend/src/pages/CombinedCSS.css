@@ -1,6 +1,3 @@
-
-/* LANDING PAGE */
-
 .landing-container {
   display: flex;
   flex-direction: column;
@@ -8,43 +5,93 @@
   justify-content: center;
   min-height: 92vh;
   text-align: center;
-  background-color: var(--bg-color);
-  color: var(--text-color);
   padding: 2rem;
-  gap: 1rem;
-  
+  gap: 2rem;
+
+
+  background-image: url('/graphs.jpg'); /* note the url() */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply; /* or multiply for darker effect */
+
+
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.landing-content {
+  position: relative;
+  background: var(--bg-color-soft);
+  border-radius: 25px;
+  padding: 2rem;
+  max-width: 920px;
+  width: 90%;
+  border: 2px solid var(--accent-primary);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.landing-content:hover {
+  border-color: var(--accent-secondary);
 }
 
 .landing-container h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, var(--accent-primary), #4a6fcf);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: slideUp 0.8s ease-in-out;
 }
 
 .landing-container h2 {
-  font-size: 1.5rem;
-  font-weight: 400;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--accent-primary);
+  animation: slideUp 1s ease-in-out;
 }
 
 .landing-container h3 {
   font-size: 1.2rem;
   font-weight: 400;
+  color: #555;
+  line-height: 1.6;
+  animation: slideUp 1.2s ease-in-out;
+  margin-top: 1rem;
 }
 
 .cta-button {
-  background-color: var(--button-bg);
+  background: var(--button-bg);
   color: var(--button-text);
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2.5rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 50px;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  transition: background-color 0.2s;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 .cta-button:hover {
   background-color: var(--button-hover);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* DASHBOARD PAGE */

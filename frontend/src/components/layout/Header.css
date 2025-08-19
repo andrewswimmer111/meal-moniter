@@ -4,16 +4,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #f3f4f6; /* soft light gray */
+  background-color: var(--header-bg);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
   height: 8vh;
 }
 
 .header-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1f2937; /* dark gray */
+  color: var(--header-text);
   cursor: pointer;
 }
 
@@ -23,7 +22,7 @@
 }
 
 .header-button {
-  background-color: #bfdbfe; /* light blue */
+  background-color: var(--header-text); /* light blue */
   color: #1e3a8a; /* dark blue */
   padding: 0.5rem 1rem;
   border: none;

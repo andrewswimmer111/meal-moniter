@@ -42,7 +42,6 @@ function Login() {
     return (
         <div className="auth-container">
             <form className="auth-form" onSubmit={handleLogin}>
-                <h2>Login</h2>
                 <label htmlFor="email">Email:</label>
                 <input
                     type="email"
